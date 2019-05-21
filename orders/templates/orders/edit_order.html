@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+<html>
+<head>
+</head>
+
+<body>
+    {% block body %}
+    <div class="container">
+    <div class="page-header">
+        <h2>&nbsp; {{ "Заказ №" }}{{ order.id }}</h2>
+    </div>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <div class = "container">
+        <ul class="list-group">
+                <li class="list-group-item">{{ order_edit_form.client }}</li>
+            <li class="list-group-item">
+                <form method="post">
+                    {% csrf_token %}
+                    <b>Клиент:</b> {{ order.client.name }} {{ order.client.second_name }}
+                    
+                    {{ order_edit_form.as_p }}
+                    <button type="submit">Зарегистрироваться</button>
+                </form>
+            </li>
+        </ul>
+        <h2>{{ warning }}</h2>
+    </div>
+    </div>
+    {% endblock %}
+</body>
+</html>
+

@@ -1,0 +1,31 @@
+<html>
+{% extends 'base.html' %}
+
+<head>
+</head>
+
+<body>
+    {% block body %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <div class = "container">
+        <div class="page-header">
+            <h2>&nbsp; {{ "Клиенты" }}</h2>
+        </div>
+        <div class="list-group">
+        <ul class="list-group">
+            {% for client in client_list %}
+                <li class="list-group-item"> 
+                    <b>Клиент:</b> {{ client.name }} {{ client.second_name }} 
+                    <b>Почта:</b> {{ client.email }}
+                    <b>Телефон:</b> {{ client.phone }}
+                    <b>Адрес:</b> {{ client.address }}
+                    <a href = "{% url 'orders:client_edit' client.id %}"> Редактировать </a>
+                </li>
+            {% endfor %}
+        </ul>
+        </div>
+        <h2>{{ warning }}</h2>
+</div>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% csrf_token %}
+
+<html>
+    <head>
+    </head>
+
+    <body>
+            {% block body %}
+    <div class="container" id = "list">
+        <div class="page-header">
+            <h2>&nbsp; {{ "Открытые заказы" }}</h2>
+        </div>
+
+        <form id="distances" action="geo_temp" method="post">
+            {% csrf_token %}
+            <label for="distances">JSON расстояний: </label>
+            <input id="dist" type="text" name="dist" value="">
+            <input type="submit" value="OK">
+        </form>
+
+    </div>
+        <script src="https://api-maps.yandex.ru/2.1/?apikey=cb9cd70c-6e05-4bf4-94d1-e512a2370018&lang=ru_RU" type="text/javascript">
+        </script>
+        <script type="text/javascript">
+        var order_list = "{% for order in orders_list %} |{{ order.id }}*{{ order.client.address }}|  {% endfor %}"
+        // var list_size = (order_list.match(/\*/g) || []).length;
+        //console.log(order_list.split('|'));
+        order_list = order_list.split('|');
+        var orders = []
+        for (order in order_list){
+            if (order_list[order].search(/\*/g) + 1){
+                order_list[order] = order_list[order].split('*');
+                console.log(order_list[order]);
+                orders.push(order_list[order]);
+            }
+        }
+        console.log(orders);
+
+        //document.write(typeof(orders));
+        for (order in orders){
+            // document.getElementById("list").innerHTML = 5;
+            document.write(orders[order][0] + ' ' + orders[order][1]);
+            document.write('<br>')
+        }
+
+        var addresses = []
+        for (order in orders){
+            addresses.push(orders[order][1])
+        }
+
+
+
+        // Строим маршрут из Королева в Красногорск через Химки и Мытищи,
+        // где Мытищи - транзитная точка. Устанавливаем координаты Красногорска.
+        var dist_matrix = [];
+        var dist_line = [];
+        var tmp = 0;
+
+        ymaps.ready(function () { 
+            for (i in addresses){
+                for (j in addresses){
+                    ymaps.route([addresses[i], addresses[j]],
+                        {
+                                mapStateAutoApply: true
+                            })
+                            .then(function (route) {
+                                route.getPaths()
+                                    .options.set({
+                                        //  В балуне выводим только информацию о времени движения с учетом пробок.
+                                        balloonContentLayout: ymaps.templateLayoutFactory
+                                            .createClass('{{ properties.humanJamsTime }}'),
+                                        // Можно выставить настройки графики маршруту.
+                                        strokeColor: 'FFA500',
+                                        opacity: 0.9
+                                    });
+                                // Добавляем маршрут на карту.
+                                //myMap.geoObjects.add(route);
+                                //console.log(addresses[i] + ' - ' + addresses[j] + ' : ' + route.getLength());
+                                //console.log(route.requestPoints[0] + ' - ' + route.requestPoints[1] + ' : ' + route.getLength());
+                                //console.log(route);
+                                dist_matrix.push({"addr1": route.requestPoints[0], 
+                                    "addr2": route.requestPoints[1],
+                                    "dist": route.getLength().toString()})
+                            });  
+                }
+            }
+        });
+
+        console.log(dist_matrix);
+        
+ 
+        setTimeout(() => {
+            // for (elem in dist_matrix){
+            //     dist_line.push(JSON.stringify(dist_matrix[elem]));
+            // }
+            dist_line = JSON.stringify(dist_matrix);
+            //console.log(dist_line);
+
+            //document.write(dist_line);
+
+            var form = document.getElementById("dist").value = dist_line;
+
+            // document.write('{% with dist=' , dist_line, '%}');
+
+            // document.write('<form method="post">');
+            //     document.write('<label for="your_name">Your name: </label>');
+            //     document.write('<input id="your_name" type="text" name="your_name" value="{{ dist }}">');
+            //     document.write('<input type="submit" value="OK">');
+            // document.write('</form>');
+
+            // document.write('{% endwith %}');
+            
+            
+            
+        
+            // request= new XMLHttpRequest();
+            // request.open("POST", "opened_orders", true);
+            // request.setRequestHeader("X-CSRFToken", "CPf7qY3oGARQqD8UoIyQ3OzSQlQ6mLviyXOcX0UC3DeeHrRIbkoD1BHs0ZFFYMNk");
+            // request.send(dist_line);
+        }, 40000)
+
+        function sleep(milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds){
+                break;
+                }
+            }
+        }
+        sleep(20000);
+        document.write(typeof(dist_matrix));
+
+
+</script>
+
+    
+
+    <div id="YMapsID" style="width: 450px; height: 350px;"></div>
+    
+    {% endblock %}
+    </body>
+</html>

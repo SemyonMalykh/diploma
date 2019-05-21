@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+<html>
+    <head>
+    </head>
+
+    <body>
+        {% block body %}
+        <div class="container">
+                <!-- <div class="jumbotron"> -->
+                    <div class="page-header">
+                        <h2>&nbsp; {{ "Регистрация клиента" }}</h2>
+                    </div>
+                    <br>
+                    <ul "list-group">
+                    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+                    <li class="list-group-item">
+                        <!-- <div class = "container"> -->
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ client_register_form.as_p }}
+                            <button type="submit" class="btn btn-sm btn-default"><b>Зарегистрировать</b></button>
+                        </form>
+                        </li>
+                    </ul>
+                    <h2>{{ warning }}</h2>
+                    <!-- </div>     -->
+                </div>   
+            <!-- </div>       -->
+        {% endblock %}
+    </body>
+
+</html>
+
+<!-- 
+
+<div class="container">
+        <div class="jumbotron">
+            <div class="page-header">
+                <h2>&nbsp; {{ "Регистрация клиента" }}</h2>
+            </div>
+            <br>
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+            <div class = "container">
+            <form method="post">
+                {% csrf_token %}
+                {{ client_register_form.as_p }}
+                <button type="submit">Зарегистрировать</button>
+            </form>
+
+            <!-- <form method="post">
+                {% csrf_token %}
+                {{ user_form.as_p }}
+                <button type="submit">Зарегистрироваться</button>
+                </form> -->
+
+            <h2>{{ warning }}</h2>
+            </div>    
+        </div>
+        
+    </div> -->

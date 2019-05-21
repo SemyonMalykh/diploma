@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+<html>
+    <head>
+    </head>
+
+    <body>
+        {% block body %}
+        <div class="container">
+                <!-- <div class="jumbotron"> -->
+                    <div class="page-header">
+                        <h2>&nbsp; {{ "Редактирование данных" }}</h2>
+                    </div>
+                    <br>
+                    <ul class="list-group">
+                    <li class="list-group-item">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ client_form.as_p }}
+                            <button type="submit" class="btn btn-xs btn-default">Сохранить</button>
+                            <a href = "{% url 'orders:clients' %}"><button type="button" class="btn btn-xs btn-default">Отмена</button></a>
+                        </form>
+                    </li>
+                    </ul>
+            </div>   
+        {% endblock %}
+    </body>
+
+</html>

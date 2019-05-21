@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+<html>
+
+<head>
+</head>
+
+<body>
+    {% block body %}
+    <div class="container">
+        <div class="page-header">
+            <h2>&nbsp; {{ "Открытые заказы" }}</h2>
+        </div>
+
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <div class = "container">
+            <ul class="list-group">
+                {% for order in orders_list %}
+                    <li class="list-group-item">
+                        <b>Номер заказа:</b> {{ order.id }} 
+                        <b>Клиент:</b> {{ order.client.name }} {{ order.client.second_name }} 
+                        <b>Статус:</b> {{ order.status }}
+                        <b>Стоимость:</b> {{ order.price }}
+                        <b>Дата заказа:</b> {{ order.date_ordered }}
+                        <a href = "{% url 'orders:view_order' id=order.id %}"> Подробно </a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <h2>{{ warning }}</h2>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>
+

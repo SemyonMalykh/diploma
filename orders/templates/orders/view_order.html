@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+<html>
+    <head>
+    </head>
+
+    <body>
+        {% block body %}
+        <div class="container">
+            <div class="page-header">
+                <h2>&nbsp; {{ "Заказ №" }}{{ order.id }}</h2>
+            </div>
+
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+            <div class = "container">
+                <ul class="list-group">
+                    <li class="list-group-item"> Номер заказа: {{ order.id }} </li>
+                    <li class="list-group-item"> Клиент: {{ order.client.name }} {{ order.client.second_name }} </li>
+                    <li class="list-group-item"> Статус: {{ order.status }} </li>
+                    <li class="list-group-item"> Стоимость: {{ order.price }} </li>
+                    <li class="list-group-item"> Дата заказа: {{ order.date_ordered }} </li>
+                    <li class="list-group-item"> Самовывоз: {{ order.is_selfpickup }} </li>
+                    <li class="list-group-item"> Дата доставки: {{ order.delivery_date }} </li>
+                    <li class="list-group-item"> Время доставки: {{ order.delivery_time }} </li>
+                </ul>
+                <a href = "{% url 'orders:edit_order' id=order.id %}">
+                    <button type="button" class="btn btn-sm btn-primary">
+                    <b>Отредактировать</b>
+                    </button>
+                </a> 
+                <h2>{{ warning }}</h2>
+            </div>
+        </div>
+        {% endblock %}
+    </body>
+</html>
