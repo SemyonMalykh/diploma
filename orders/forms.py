@@ -110,20 +110,20 @@ class ClientRegisterForm(forms.ModelForm):
         model = Client
         fields = ('name', 'second_name', 'phone','email', 'address', 'gender')
 
-class OrderEditForm(forms.ModelForm):
-    MONTHS = {
-        1:('Январь'), 2:('Февраль'), 3:('Март'), 4:('Апрель'),
-        5:('Май'), 6:('Июнь'), 7:('Июль'), 8:('Август'),
-        9:('Сентябрь'), 10:('Октябрь'), 11:('Ноябрь'), 12:('Декабрь')
-        }
-    #date = forms.DateField(label='Дата посещения', widget = forms.SelectDateWidget(months=MONTHS))
-    #num_users_registred = forms.IntegerField(label='Количество посетителей (не более 10)', min_value = 1, max_value = 10)
-    TIMES = gen_times()
-    is_self_pickup = forms.BooleanField(label = 'Самовывоз', required=False)
-    delivery_date = forms.DateField(label='Дата доставки', widget = forms.SelectDateWidget(months=MONTHS))
-    delivery_time = forms.ChoiceField(label='Время доставки', choices = TIMES)
-    price = forms.IntegerField(label='Стоимость заказа', min_value = 0)
-    is_payed = forms.BooleanField(label = 'Оплачен', required=False)
-    class Meta:
-        model = Order
-        fields = ('is_self_pickup', 'delivery_date', 'delivery_time', 'price', 'is_payed')
+# class OrderEditForm(forms.ModelForm):
+#     MONTHS = {
+#         1:('Январь'), 2:('Февраль'), 3:('Март'), 4:('Апрель'),
+#         5:('Май'), 6:('Июнь'), 7:('Июль'), 8:('Август'),
+#         9:('Сентябрь'), 10:('Октябрь'), 11:('Ноябрь'), 12:('Декабрь')
+#         }
+#     #date = forms.DateField(label='Дата посещения', widget = forms.SelectDateWidget(months=MONTHS))
+#     #num_users_registred = forms.IntegerField(label='Количество посетителей (не более 10)', min_value = 1, max_value = 10)
+#     TIMES = gen_times()
+#     is_self_pickup = forms.BooleanField(label = 'Самовывоз', required=False)
+#     delivery_date = forms.DateField(label='Дата доставки', widget = forms.SelectDateWidget(months=MONTHS))
+#     delivery_time = forms.ChoiceField(label='Время доставки', choices = TIMES)
+#     price = forms.IntegerField(label='Стоимость заказа', min_value = 0)
+#     is_payed = forms.BooleanField(label = 'Оплачен', required=False)
+#     class Meta:
+#         model = Order
+#         fields = ('is_self_pickup', 'delivery_date', 'delivery_time', 'price', 'is_payed')
